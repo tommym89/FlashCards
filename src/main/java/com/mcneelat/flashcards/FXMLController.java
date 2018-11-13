@@ -41,11 +41,19 @@ public class FXMLController implements Initializable {
     private int currentCardIndex = -1;
     private String[] currentCard;
 
+    public List<String[]> getCardsList() {
+        return cardsList;
+    }
+
     @FXML
     private void loadFileButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Flashcards JSON File");
         File inputFile = fileChooser.showOpenDialog(new Stage());
+        this.loadFlashcards(inputFile);
+    }
+
+    public void testLoadFlashcards(File inputFile) {
         this.loadFlashcards(inputFile);
     }
 
@@ -59,7 +67,9 @@ public class FXMLController implements Initializable {
                 String[] qa = new String[]{(String) obj.get("question"), (String) obj.get("answer")};
                 cardsList.add(qa);
             }
-            currentCardPane.setVisible(true);
+            if (currentCardPane != null) {
+                currentCardPane.setVisible(true);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
